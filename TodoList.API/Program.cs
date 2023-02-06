@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using TodoList.API.Data;
+using TodoList.API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +43,7 @@ builder.Services.AddDbContext<TodolistDbContext>(options => {
 });
 
 // skopes
+builder.Services.AddScoped<ITodoRepository, TodoRepository>();
 
 builder.Services.AddFluentValidationAutoValidation()
     .AddFluentValidationClientsideAdapters()

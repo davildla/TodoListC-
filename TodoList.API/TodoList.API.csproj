@@ -24,11 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\DTO\" />
-    <Folder Include="Profiles\" />
     <Folder Include="Validations\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>
