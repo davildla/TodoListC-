@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TodoList.API.Data;
 
@@ -11,9 +12,11 @@ using TodoList.API.Data;
 namespace TodoList.API.Migrations
 {
     [DbContext(typeof(TodolistDbContext))]
-    partial class TodolistDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230206181156_updates")]
+    partial class updates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,14 +39,34 @@ namespace TodoList.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("UrgencyId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UrgencyId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Todos");
+                });
+
+            modelBuilder.Entity("TodoList.API.Models.Domain.Urgency", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Urgency");
                 });
 
             modelBuilder.Entity("TodoList.API.Models.Domain.User", b =>
@@ -63,11 +86,19 @@ namespace TodoList.API.Migrations
 
             modelBuilder.Entity("TodoList.API.Models.Domain.Todo", b =>
                 {
+                    b.HasOne("TodoList.API.Models.Domain.Urgency", "Urgency")
+                        .WithMany()
+                        .HasForeignKey("UrgencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TodoList.API.Models.Domain.User", "User")
                         .WithMany("Todos")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Urgency");
 
                     b.Navigation("User");
                 });

@@ -19,8 +19,6 @@ namespace TodoList.API.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "reader")]
-
         public async Task<IActionResult> GetAlTodosAsync()
         {
             var todos = await todoRepository.GetAllAsync();
@@ -31,7 +29,6 @@ namespace TodoList.API.Controllers
 
         [HttpGet]
         [Route("{id:guid}")]
-        //[Authorize(Roles = "reader")]
         [ActionName("GetTodoByIdAsync")]
         public async Task<IActionResult> GetTodoByIdAsync(Guid id)
         {
@@ -51,8 +48,6 @@ namespace TodoList.API.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "writer")]
-
         public async Task<IActionResult> AddTodoAsync(Models.DTO.AddTodoRequest addTodoRequest)
         {
             // Request(DTO) to Domain modal
@@ -61,7 +56,6 @@ namespace TodoList.API.Controllers
                 Title = addTodoRequest.Title,
                 Content = addTodoRequest.Content,
                 UserId = addTodoRequest.UserId,
-                UrgencyId = addTodoRequest.UrgencyId,
             };
 
             // pass details to Reposetory
@@ -77,9 +71,9 @@ namespace TodoList.API.Controllers
 
             return CreatedAtAction(nameof(GetTodoByIdAsync), new { id = res.Id }, res);
         }
+        
         [HttpDelete]
         [Route("{id:guid}")]
-        //[Authorize(Roles = "writer")]
 
         public async Task<IActionResult> DeleteTodoById(Guid id)
         {
@@ -101,7 +95,6 @@ namespace TodoList.API.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
-        //[Authorize(Roles = "writer")]
 
         public async Task<IActionResult> UpdateTodoAsync([FromRoute] Guid id, [FromBody] Models.DTO.UpdateTodoRequest updateTodoRequest)
         {
@@ -111,7 +104,6 @@ namespace TodoList.API.Controllers
                 Title = updateTodoRequest.Title,
                 Content = updateTodoRequest.Content,
                 UserId = updateTodoRequest.UserId,
-                UrgencyId = updateTodoRequest.UrgencyId,
             };
 
             // Update Region using reposetory

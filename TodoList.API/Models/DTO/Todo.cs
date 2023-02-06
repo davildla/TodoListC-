@@ -9,7 +9,5 @@ namespace TodoList.API.Models.DTO
         public string Content { get; set; }
         public Guid UserId { get; set; }
 
-        // Navigation Properties
-        public Urgency Urgency { get; set; }
     }
 }

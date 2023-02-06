@@ -4,8 +4,7 @@ namespace TodoList.API.Repositories
 {
     public interface IUserRepository
     {
-        Task<User> AuthenticateAsync(string username, string password); // login
-
-        Task<User> RegisterUser(User user);
+        Task<List<User>> GetAllAsync();
+        Task<User> RegisterUserAsync(User user);
     }
 }

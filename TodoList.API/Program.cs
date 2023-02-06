@@ -44,6 +44,7 @@ builder.Services.AddDbContext<TodolistDbContext>(options => {
 
 // skopes
 builder.Services.AddScoped<ITodoRepository, TodoRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddFluentValidationAutoValidation()
     .AddFluentValidationClientsideAdapters()

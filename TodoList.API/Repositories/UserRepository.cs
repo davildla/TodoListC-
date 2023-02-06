@@ -12,36 +12,13 @@ namespace TodoList.API.Repositories
         {
             this.todolistDbContext = todolistDbContext;
         }
-        public async Task<User> AuthenticateAsync(string username, string password)
+
+        public async Task<List<User>> GetAllAsync()
         {
-            var user = await todolistDbContext.Users
-                .FirstOrDefaultAsync(x => x.Username.ToLower() == username.ToLower() && x.Password == password);
-
-            if (user == null)
-            {
-                return null;
-            }
-
-            var userRoles = await todolistDbContext.Users_Roles.Where(x => x.UserId == user.Id).ToListAsync();
-
-            if (userRoles.Any())
-            {
-                user.Roles = new List<string>();
-                foreach (var userRole in userRoles)
-                {
-                    var role = await todolistDbContext.Roles.FirstOrDefaultAsync(x => x.Id == userRole.RoleId);
-                    if (role != null)
-                    {
-                        user.Roles.Add(role.Name);
-                    }
-                }
-            }
-
-            user.Password = null;
-            return user;
+            return await todolistDbContext.Users.ToListAsync();
         }
 
-        public async Task<User> RegisterUser(User user)
+        public async Task<User> RegisterUserAsync(User user)
         {
             // gets a user
             var userNameExists = await todolistDbContext.Users
